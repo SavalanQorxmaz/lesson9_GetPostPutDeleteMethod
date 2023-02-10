@@ -1,0 +1,66 @@
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    margin-top: 50px;
+
+    #person {
+        width: 100%;
+
+        & > * {
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            margin-left: 5px;
+            outline: none;
+            background-color: black;
+            color: white;
+            &::placeholder {
+                color: rgb(19, 100, 192);
+            }
+         
+            
+        }
+        & > button {
+            background-color: blue;
+        }
+        
+    }
+
+    table {
+        width: 100%;
+        margin-top: 30px;
+        
+        td{
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 3px;
+            width: 20%
+        }
+
+        th {
+            @extend td;
+            background-color: black;
+            color: white;
+        }
+        .update-delete {
+            border: none;
+            border:  none;
+            
+            & > * {
+                padding: 3px;
+                border: none;
+                background-color: blue;
+                color: white;
+            }
+        }
+    }
+}
