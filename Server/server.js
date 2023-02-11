@@ -2,13 +2,15 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 var cors = require("cors");
-const { url } = require("inspector");
+// const { url } = require("inspector");
+// const { urlencoded } = require("express");
 const port = 7000
 
 
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
+app.use(bodyParser.urlencoded({extended: false}))
 
 
 const db = [];
@@ -23,20 +25,21 @@ app.get("/get", (req, res)=>{
 
 app.post("/create", (req, res) =>{
     db.push(req.body);
-    console.log(req.body)
+    // console.log(db)
 })
 
 
 app.put("/update:id", (req, res) => {
-    const id = req.body.id;
-    let userItem = db.findIndex((user) => {
-        if(user.id == id){
-            // db[userItem] = req.body;
-            console.log(user)
-        }
-       
-    })
-    console.log(id)
+    const id = (req.params.id).slice(1);
+    let index = -1;
+db.map((value, ind) => {
+    if(value.id == id){
+        index = ind;
+    }
+})
+db[index] = req.body
+    
+   
 
 })
 
@@ -44,8 +47,8 @@ app.delete("/delete:id", (req, res) => {
     const {id}= req.params.id;
     let userItem = db.findIndex((user) => {
         user.id == id;
-        db[userItem] = req.body
     })
+    db[userItem] = req.body
 })
 
 

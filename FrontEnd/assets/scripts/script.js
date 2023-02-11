@@ -8,9 +8,9 @@ const lastName = document.getElementById("lastName");
 const password = document.getElementById("password");
 const create = document.getElementById("create")
 const table = document.getElementById("table")
+const change = document.querySelector(".change")
 
 
-let flag = 0;
 let idForUpdate = 0
 
 
@@ -23,24 +23,17 @@ let idForUpdate = 0
     .then((json) => {
         json.data.map((data) => {
             table.innerHTML += `
-            </tr>
-            <tr>
-                <td><span>${data.id}</span></td>
-                <td>
-                    <span>${data.firstName}</span>
-                </td>
-                <td>
-                    <span>${data.lastName}</span>
-                </td>
-                <td>
-                    <span>${data.password}</span>
-                </td>
+            <tr><td>${data.id}</td>
+            <td> ${data.firstName} </td>
+                <td>${data.lastName}</td>
+                <td>${data.password} </td>
                 <td class="update-delete">
                     <button class="update" >Yenile</button>
                     <button class="delete">Sil</button>
                 </td>
                
             </tr>`
+           
             // console.log(json)
 
             // console.log(table)
@@ -52,21 +45,24 @@ let idForUpdate = 0
     
     create.addEventListener("click",() => {
         const data = {
-            
+            id: Date.now(),
             firstName: firstName.value,
             lastName: lastName.value,
             password: password.value,
         };
 
-        if(flag ==0){
-            data.id = Date.now()
-       
+        console.log(data)
+            
+        
+
+        console.log(data)
     
         fetch(`${BASE_URL}/create`, {
             method: "Post",
             headers: {
                 "Content-type": "application/json"
             },
+           
             body: JSON.stringify(data)
         })
         .then(res => res.json())
@@ -75,47 +71,57 @@ let idForUpdate = 0
             // console.log(json)
         })
        
-        
-        }
-        if(flag == 1){
-
-            data.id = idForUpdate;
-
-            create.innerText = "Daxil Et";
-
-            fetch(`${BASE_URL}/update:${idForUpdate}`, {
-                method: "Put",
-                headers: {
-                    "Content-type" : "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-            .then(res => res.json())
-            // .then(json => console.log(json))
-        }
-      
-        
+        location.reload()  
     })
     
+    
 
+   
 
+   
 
 
 
 table.addEventListener("click", (e)=>{
    
         if(e.target.getAttribute("class") == "update"){
-            idForUpdate = Number(e.target.parentNode.parentNode.children[0].children[0].innerHTML);
-            console.log(e.target.parentNode.parentNode)
 
-            firstName.value = e.target.parentNode.parentNode.children[1].children[0].innerHTML;
-            lastName.value = e.target.parentNode.parentNode.children[2].children[0].innerHTML;
-            password.value = e.target.parentNode.parentNode.children[3].children[0].innerHTML
-            flag = 1
-            create.innerText = "Yenile"
+            idForUpdate = Number(e.target.parentNode.parentNode.children[0].innerHTML)
+             
+console.log(e.target.parentNode.parentNode.children[0])
+                change.children[0].value = e.target.parentNode.parentNode.children[1].innerHTML;
+                change.children[1].value = e.target.parentNode.parentNode.children[2].innerHTML;
+                change.children[2].value = e.target.parentNode.parentNode.children[3].innerHTML;
+           change.classList.remove("hidden")
+          
         }
-        else{
-
-        }
+     
     
 })
+
+
+change.addEventListener("click", (e) => {
+    if(e.target.id == "cancel"){
+        change.classList.add("hidden")
+    }
+
+    if(e.target.id == "submit"){
+        const data = {
+            id: idForUpdate,
+            firstName: change.children[0].value ,
+            lastName: change.children[1].value,
+            password: change.children[2].value,
+        };
+
+        fetch(`${BASE_URL}/update:${idForUpdate}`, {
+            method: "Put",
+            headers: {
+                "Content-type" : "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        change.classList.add("hidden")
+        location.reload()
+    }
+})
+
