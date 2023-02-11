@@ -13,9 +13,10 @@
 }
 .container #person {
   width: 100%;
+  font-size: 18px;
 }
-.container #person > * {
-  padding: 5px;
+.container #person > input {
+  padding: 8px;
   border: none;
   border-radius: 5px;
   margin-left: 5px;
@@ -23,11 +24,13 @@
   background-color: black;
   color: white;
 }
-.container #person > *::placeholder {
+.container #person > input::placeholder {
   color: rgb(19, 100, 192);
 }
 .container #person > button {
   background-color: blue;
+  padding: 8px;
+  cursor: pointer;
 }
 .container table {
   width: 100%;
@@ -41,6 +44,7 @@
 .container table th {
   background-color: black;
   color: white;
+  padding: 8px;
 }
 .container table .update-delete {
   border: none;

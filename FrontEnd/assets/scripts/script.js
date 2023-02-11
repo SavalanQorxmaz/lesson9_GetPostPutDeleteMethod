@@ -44,56 +44,84 @@ let idForUpdate = 0
 
     
     create.addEventListener("click",() => {
-        const data = {
-            id: Date.now(),
-            firstName: firstName.value,
-            lastName: lastName.value,
-            password: password.value,
-        };
 
-        console.log(data)
-            
-        
+        if((firstName.value.trim() == "") && (lastName.value.trim() == "") && (password.value.trim() == "")){
+            swal ( "Oops" ,  "Bos olmaz!" ,  "error" )
+        }else{
 
-        console.log(data)
-    
-        fetch(`${BASE_URL}/create`, {
-            method: "Post",
-            headers: {
-                "Content-type": "application/json"
-            },
+            const data = {
+                id: Date.now(),
+                firstName: firstName.value,
+                lastName: lastName.value,
+                password: password.value,
+            };
+
+ 
+            fetch(`${BASE_URL}/create`, {
+                method: "Post",
+                headers: {
+                    "Content-type": "application/json"
+                },
+               
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then((json)=> {
+                location.reload();
+                // console.log(json)
+            })
            
-            body: JSON.stringify(data)
-        })
-        .then(res => res.json())
-        .then((json)=> {
-            location.reload();
-            // console.log(json)
-        })
-       
-        location.reload()  
+            location.reload()  
+
+        }
+   
     })
     
     
-
-   
-
-   
-
-
 
 table.addEventListener("click", (e)=>{
    
         if(e.target.getAttribute("class") == "update"){
 
             idForUpdate = Number(e.target.parentNode.parentNode.children[0].innerHTML)
-             
-console.log(e.target.parentNode.parentNode.children[0])
                 change.children[0].value = e.target.parentNode.parentNode.children[1].innerHTML;
                 change.children[1].value = e.target.parentNode.parentNode.children[2].innerHTML;
                 change.children[2].value = e.target.parentNode.parentNode.children[3].innerHTML;
            change.classList.remove("hidden")
           
+        }
+
+        if(e.target.getAttribute("class") == "delete"){
+            console.log("delete button clicked")
+            
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+              })
+              .then((willDelete) => {
+                if (willDelete) {
+                  
+                  idForUpdate = Number(e.target.parentNode.parentNode.children[0].innerHTML);
+                  fetch(`${BASE_URL}/delete:${idForUpdate}`, {
+                    method: "Delete",
+                    headers: {
+                        "Content-type" : "application/json"
+                    },
+                    
+                })
+
+                swal("Poof! Your imaginary file has been deleted!", {
+                    icon: "success",
+                  });
+                location.reload()
+
+                } else {
+                  swal("Your imaginary file is safe!");
+                }
+              });
         }
      
     

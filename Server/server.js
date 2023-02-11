@@ -44,11 +44,16 @@ db[index] = req.body
 })
 
 app.delete("/delete:id", (req, res) => {
-    const {id}= req.params.id;
-    let userItem = db.findIndex((user) => {
-        user.id == id;
-    })
-    db[userItem] = req.body
+    const id= (req.params.id).slice(1);
+    let index = -1
+    db.map((value, ind) => {
+        if(value.id == id){
+            index = ind
+        }
+    });
+    db.splice(index, 1)
+
+    console.log(id)
 })
 
 
