@@ -14,11 +14,13 @@ const change = document.querySelector(".change")
 let idForUpdate = 0
 
 
-    fetch(`${BASE_URL}/get`, {
+
+    fetch(`${BASE_URL}/`, {
         method: "Get",
     })
     .then(res => {
         return res.json();
+
     })
     .then((json) => {
         json.data.map((data) => {
@@ -34,13 +36,14 @@ let idForUpdate = 0
                
             </tr>`
            
-            // console.log(json)
-
-            // console.log(table)
+          
         })
        
        
     })
+
+
+   
 
     
     create.addEventListener("click",() => {
@@ -57,7 +60,7 @@ let idForUpdate = 0
             };
 
  
-            fetch(`${BASE_URL}/create`, {
+            fetch(`${BASE_URL}/`, {
                 method: "Post",
                 headers: {
                     "Content-type": "application/json"
@@ -65,14 +68,9 @@ let idForUpdate = 0
                
                 body: JSON.stringify(data)
             })
-            .then(res => res.json())
-            .then((json)=> {
-                location.reload();
-                // console.log(json)
-            })
+          
            
             location.reload()  
-
         }
    
     })
@@ -92,7 +90,6 @@ table.addEventListener("click", (e)=>{
         }
 
         if(e.target.getAttribute("class") == "delete"){
-            console.log("delete button clicked")
             
             swal({
                 title: "Are you sure?",
@@ -105,7 +102,7 @@ table.addEventListener("click", (e)=>{
                 if (willDelete) {
                   
                   idForUpdate = Number(e.target.parentNode.parentNode.children[0].innerHTML);
-                  fetch(`${BASE_URL}/delete:${idForUpdate}`, {
+                  fetch(`${BASE_URL}/${idForUpdate}`, {
                     method: "Delete",
                     headers: {
                         "Content-type" : "application/json"
@@ -141,7 +138,7 @@ change.addEventListener("click", (e) => {
             password: change.children[2].value,
         };
 
-        fetch(`${BASE_URL}/update:${idForUpdate}`, {
+        fetch(`${BASE_URL}/${idForUpdate}`, {
             method: "Put",
             headers: {
                 "Content-type" : "application/json"

@@ -17,20 +17,21 @@ const db = [];
 
 
 
-app.get("/get", (req, res)=>{
-    res.send({
-        data:db
+app.get("/", (req, res)=>{
+    res.send({     
+        data: db
     })
 })
 
-app.post("/create", (req, res) =>{
+app.post("/", (req, res) =>{
     db.push(req.body);
-    // console.log(db)
+
 })
 
 
-app.put("/update:id", (req, res) => {
-    const id = (req.params.id).slice(1);
+app.put("/:id", (req, res) => {
+    // console.log(req.params)
+    const id = req.params.id;
     let index = -1;
 db.map((value, ind) => {
     if(value.id == id){
@@ -38,22 +39,19 @@ db.map((value, ind) => {
     }
 })
 db[index] = req.body
-    
-   
 
 })
 
-app.delete("/delete:id", (req, res) => {
-    const id= (req.params.id).slice(1);
+app.delete("/:id", (req, res) => {
+    const id= req.params.id;
     let index = -1
     db.map((value, ind) => {
         if(value.id == id){
             index = ind
         }
-    });
+    })
     db.splice(index, 1)
 
-    console.log(id)
 })
 
 
